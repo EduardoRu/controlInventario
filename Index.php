@@ -3,6 +3,7 @@
     $error = false;
     $config = include 'config.php';
 
+    header('Refresh:10');
     try {
         $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
         $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
@@ -34,7 +35,7 @@
         $sentencia = $conexion->prepare($consultaSQL);
         $sentencia->execute();
 
-        $alumnos = $sentencia->fetchAll();
+        $inventario = $sentencia->fetchAll();
     } catch (PDOException $error) {
         $error = $error->getMessage();
     }
@@ -60,68 +61,66 @@
     }
     ?>
     <!--Funcion filtro -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <a href="crear_articulo.php" class="btn btn-primary mt-4">Agregar articulo</a>
-                <a href="#" class="btn btn-primary mt-4">Agregar ubicacion</a>
-                <a href="#" class="btn btn-primary mt-4">Agregar personal</a>
-                <hr>
-                <form method="post" class="form-inline">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="form-group mr-3">
-                                <input type="text" id="articulo_nombre" name="articulo_nombre" placeholder="Buscar por nombre del articulo o responsable" class="form-control">
+
+    <body class="sb-nav-fixed">
+        <?php include('./templases/nav.php'); ?>
+        <div id="layoutSidenav">
+            <?php include('./templases/sidenav.php'); ?>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Administración</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Administración - inventario!</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Inventario
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                            <th>Descripción</th>
+                                            <th>Ubicación</th>
+                                            <th>Responsable</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($inventario && $sentencia->rowCount() > 0) {
+                                            foreach ($inventario as $fila) {
+                                        ?>
+                                                <tr>
+                                                    <td><?php echo escapar($fila['id_articulo']) ?></td>
+                                                    <td><?php echo escapar($fila['nom_articulo']) ?></td>
+                                                    <td><?php echo escapar($fila['cantidad_articulo']) ?></td>
+                                                    <td><?php echo escapar($fila['desc_articulo']) ?></td>
+                                                    <td><?php echo escapar($fila['nom_ubicacion']) ?></td>
+                                                    <td><?php echo escapar($fila['nom_personal']) ?></td>
+                                                    <td>
+                                                        <a href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]) ?>">🗑️Borrar</a>
+                                                        <a href="<?= 'editar.php?id=' . escapar($fila["id_articulo"]) ?>">✏️Editar</a>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" name="submit" class="btn btn-primary">Ver resultados</button>
-                        </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                </main>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="mt-3"><?= $titulo ?></h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre articulo</th>
-                            <th>Cantidad</th>
-                            <th>Descripcion del articulo</th>
-                            <th>Ubicación</th>
-                            <th>Responsable</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($alumnos && $sentencia->rowCount() > 0) {
-                            foreach ($alumnos as $fila) {
-                        ?>
-                                <tr>
-                                    <td><?php echo escapar($fila["id_articulo"]) ?></td>
-                                    <td><?php echo escapar($fila["nom_articulo"]); ?></td>
-                                    <td><?php echo escapar($fila["cantidad_articulo"]); ?></td>
-                                    <td><?php echo escapar($fila["desc_articulo"]); ?></td>
-                                    <td><?php echo escapar($fila["nom_ubicacion"]); ?></td>
-                                    <td><?php echo escapar($fila["nom_personal"]); ?></td>
-                                    <td>
-                                        <a href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]) ?>">🗑️Borrar</a>
-                                        <a href="<?= 'editar.php?id=' . escapar($fila["id_articulo"]) ?>" .>✏️Editar</a>
-                                    </td>
-                                </tr>
-                        <?php
-                            }
-                        }
-                        ?>
-                    <tbody>
-                </table>
+
             </div>
         </div>
-    </div>
+    </body>
     <?php include "./templases/footer.php" ?>
