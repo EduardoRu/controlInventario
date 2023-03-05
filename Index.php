@@ -10,9 +10,12 @@
         articulo.id AS 'id_articulo',
         articulo.nombre_articulo AS 'nom_articulo', 
         articulo.cantidad AS 'cantidad_articulo', 
-        articulo.descripcion_articulo AS 'desc_articulo', 
-        ubicacion.nombre_ubicacion AS 'nom_ubicacion', 
-        personal.nombre AS 'nom_personal' FROM articulo 
+        articulo.descripcion_articulo AS 'desc_articulo',
+        articulo.id_Ubicacion AS 'id_ubicacion',
+        ubicacion.nombre_ubicacion AS 'nom_ubicacion',
+        articulo.id_Responsable AS 'id_responsable',
+        personal.nombre AS 'nom_personal'
+        FROM articulo 
         INNER JOIN personal ON articulo.id_Ubicacion = personal.id
         INNER JOIN ubicacion ON articulo.id_Responsable = ubicacion.id";
 
@@ -91,8 +94,10 @@
                                                     <td><?php echo escapar($fila['nom_ubicacion']) ?></td>
                                                     <td><?php echo escapar($fila['nom_personal']) ?></td>
                                                     <td>
+                                                        <!-- Eliminar un articulo -->
                                                         <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]).'&table=articulo' ?>">🗑️Borrar</a>
-                                                        <a class="btn" href="<?= 'editar.php?id=' . escapar($fila["id_articulo"]) ?>">✏️Editar</a>
+                                                        <!-- Editar un articulo -->
+                                                        <?php include('./templases/modal_inventario.php') ?>
                                                     </td>
                                                 </tr>
                                         <?php
