@@ -59,7 +59,7 @@
                                 <i class="fas fa-table me-1"></i>
                                 Inventario
                             </div>
-                            <div class="card-body">
+                            <div class="card-body table-responsive-xl">
                                 <table id="datatablesSimple" class="table table-striped">
                                     <thead>
                                         <tr>

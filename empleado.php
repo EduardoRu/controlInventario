@@ -45,7 +45,52 @@ try {
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Administración - empleados!</li>
                     </ol>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            Empleados
+                        </div>
+                        <div class="card-body table-responsive-md">
+                            <table id="datatablesSimple" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido paterno</th>
+                                        <th>Apellido materno</th>
+                                        <th>Puesto</th>
+                                        <th>Teléfono</th>
+                                        <th>email</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($personal && $sentencia->rowCount() > 0) {
+                                        foreach ($personal as $fila) {
+                                    ?>
+                                            <tr>
+                                                <td><?php echo escapar($fila['id']) ?></td>
+                                                <td><?php echo escapar($fila['nombre']) ?></td>
+                                                <td><?php echo escapar($fila['apellido_paterno']) ?></td>
+                                                <td><?php echo escapar($fila['apellido_materno']) ?></td>
+                                                <td><?php echo escapar($fila['puesto_cargo']) ?></td>
+                                                <td><?php echo escapar($fila['telefono']) ?></td>
+                                                <td><?php echo escapar($fila['email']) ?></td>
+                                                <td><a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) ?>">🗑️Borrar</a>
+                                                    <a class="btn" href="<?= 'editar.php?id=' . escapar($fila["id"]) ?>">✏️Editar</a>
+                                                </td>
+                                            </tr>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
             </main>
         </div>
     </div>

@@ -45,6 +45,43 @@ try {
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Administración - ubicación!</li>
                     </ol>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            Ubicaciones
+                        </div>
+                        <div class="card-body table-responsive-md">
+                            <table id="datatablesSimple" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre de la ubicación</th>
+                                        <th>Actualizado en</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($ubicacion && $sentencia->rowCount() > 0) {
+                                        foreach ($ubicacion as $fila) {
+                                    ?>
+                                            <tr>
+                                                <td><?php echo escapar($fila['id']) ?></td>
+                                                <td><?php echo escapar($fila['nombre_ubicacion']) ?></td>
+                                                <td><?php echo escapar($fila['updated_at']) ?></td>
+                                                <td>
+                                                    <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) ?>">🗑️Borrar</a>
+                                                    <a class="btn" href="<?= 'editar.php?id=' . escapar($fila["id"]) ?>">✏️Editar</a>
+                                                </td>
+                                            </tr>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
