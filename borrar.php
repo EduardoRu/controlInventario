@@ -21,9 +21,17 @@ try {
   
   //Id recibido de la pagina principal*/
   $id = $_GET['id'];
+  $table = $_GET['table'];
   
+  $consultaSQL = "";
   //consulata a base de datos*/
-  $consultaSQL = "DELETE FROM articulo WHERE id =" . $id;
+  if($table == 'articulo'){
+    $consultaSQL = "DELETE FROM articulo WHERE id =" . $id;
+  }else if($table == 'personal'){
+    $consultaSQL = "DELETE FROM personal WHERE id =" . $id;
+  }else if($table == 'ubicacion'){
+    $consultaSQL = "DELETE FROM ubicacion WHERE id =" . $id;
+  }
   
   //Sentencia o funcion de la base de datos*/
   $sentencia = $conexion->prepare($consultaSQL);

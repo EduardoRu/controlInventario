@@ -74,76 +74,80 @@ if (isset($_POST['submit'])) {
 
 <?php include "./templases/header.php" ?>
 
-<?php
-if (isset($resultado)) {
-?>
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="alert alert-<?= $resultado['error'] ? 'danger' : 'success' ?>" role="alert">
-          <?= $resultado['mensaje'] ?>
+<body class="sb-nav-fixed">
+  <?php include('./templases/nav.php'); ?>
+  <div id="layoutSidenav" class="container">
+    <?php include('./templases/sidenav.php'); ?>
+    <div id="layoutSidenav_content">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="mt-4">Crea un nuevo articulo</h2>
+          <?php
+          if (isset($resultado)) {
+          ?>
+            <div class="mt-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="alert alert-<?= $resultado['error'] ? 'danger' : 'success' ?>" role="alert">
+                    <?= $resultado['mensaje'] ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <?php
+          }
+          ?>
+          <hr>
+          <form method="post">
+            <div class="form-group">
+              <label for="nombre_articulo">Nombre del articulo</label>
+              <input type="text" name="nombre_articulo" id="nombre_articulo" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="cantidad_articulo">Cantidad del articulo</label>
+              <input type="number" name="cantidad_articulo" id="cantidad_articulo" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="desc_articulo">Descripción del articulo</label>
+              <textarea name="desc_articulo" id="desc_articulo" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="personal_respo">Ubicación del articulo</label>
+              <!-- Coloar con select con el nombre de las ubicaciones -->
+              <select name="personal_respo" id="personal_respo" class="form-select" required>
+                <option value=""> --- </option>
+                <?php
+                foreach ($ubicacion as $u) {
+                ?>
+                  <option value="<?php echo escapar($u["id_Ubicacion"]) ?>"> <?php echo escapar($u["nombre_Ubicacion"]) ?> </option>
+                <?php
+                }
+                ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ubicacion_art">Responsable del articulo</label>
+              <!-- Coloar con select con el nombre de las personas registradas -->
+              <select name="ubicacion_art" id="ubicacion_art" class="form-select" required>
+                <option value=""> --- </option>
+                <?php
+                foreach ($personal as $p) {
+                ?>
+                  <option value="<?php echo escapar($p["id_Personal"]) ?>"> <?php echo escapar($p["nombre_Personal"] . ' ' . $p["apellido_Personal"]) ?> </option>
+                <?php
+                }
+                ?>
+              </select>
+            </div>
+            <div class="form-group mt-2">
+              <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
+              <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-<?php
-}
-?>
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h2 class="mt-4">Crea un nuevo articulo</h2>
-      <hr>
-      <form method="post">
-        <div class="form-group">
-          <label for="nombre_articulo">Nombre del articulo</label>
-          <input type="text" name="nombre_articulo" id="nombre_articulo" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="cantidad_articulo">Cantidad del articulo</label>
-          <input type="number" name="cantidad_articulo" id="cantidad_articulo" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label for="desc_articulo">Descripción del articulo</label>
-          <textarea name="desc_articulo" id="desc_articulo" class="form-control" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="personal_respo">Ubicación del articulo</label>
-          <!-- Coloar con select con el nombre de las ubicaciones -->
-          <select name="personal_respo" id="personal_respo" class="form-select" required>
-            <option value=""> --- </option>
-            <?php
-            foreach ($personal as $p) {
-            ?>
-              <option value="<?php echo escapar($p["id_Personal"]) ?>"> <?php echo escapar($p["nombre_Personal"] . ' ' . $p["apellido_Personal"]) ?> </option>
-            <?php
-            }
-            ?>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="ubicacion_art">Responsable del articulo</label>
-          <!-- Coloar con select con el nombre de las personas registradas -->
-          <select name="ubicacion_art" id="ubicacion_art" class="form-select" required>
-            <option value=""> --- </option>
-            <?php
-            foreach ($ubicacion as $u) {
-            ?>
-              <option value="<?php echo escapar($u["id_Ubicacion"]) ?>"> <?php echo escapar($u["nombre_Ubicacion"]) ?> </option>
-            <?php
-            }
-            ?>
-          </select>
-        </div>
-        <div class="form-group mt-2">
-          <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
-          <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
-        </div>
-      </form>
-    </div>
   </div>
-</div>
-
+</body>
 <?php include "./templases/footer.php" ?>

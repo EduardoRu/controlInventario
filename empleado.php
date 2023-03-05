@@ -46,9 +46,15 @@ try {
                         <li class="breadcrumb-item active">Administración - empleados!</li>
                     </ol>
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            Empleados
+                        <div class="card-header d-flex">
+                            <div class="p-2 flex-grow-1 mt-2">
+                                <i class="fas fa-table me-1"></i>Empleados
+                            </div>
+                            <div class="p-2">
+                                <a type="button" class="btn btn-outline-success" href="#">
+                                    Agregar articulo
+                                </a>
+                            </div>
                         </div>
                         <div class="card-body table-responsive-md">
                             <table id="datatablesSimple" class="table table-striped">

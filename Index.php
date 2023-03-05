@@ -55,9 +55,15 @@
                             <li class="breadcrumb-item active">Administración - inventario!</li>
                         </ol>
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                Inventario
+                            <div class="card-header d-flex">
+                                <div class="p-2 flex-grow-1 mt-2">
+                                    <i class="fas fa-table me-1"></i> Inventario
+                                </div>
+                                <div class="p-2">
+                                    <a type="button" class="btn btn-outline-success" href="./crear_articulo.php">
+                                        Agregar articulo
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body table-responsive-xl">
                                 <table id="datatablesSimple" class="table table-striped">
@@ -85,7 +91,7 @@
                                                     <td><?php echo escapar($fila['nom_ubicacion']) ?></td>
                                                     <td><?php echo escapar($fila['nom_personal']) ?></td>
                                                     <td>
-                                                        <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]) ?>">🗑️Borrar</a>
+                                                        <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]).'&table=articulo' ?>">🗑️Borrar</a>
                                                         <a class="btn" href="<?= 'editar.php?id=' . escapar($fila["id_articulo"]) ?>">✏️Editar</a>
                                                     </td>
                                                 </tr>
