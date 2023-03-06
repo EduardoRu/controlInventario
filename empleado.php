@@ -52,7 +52,7 @@ try {
                             </div>
                             <div class="p-2">
                                 <a type="button" class="btn btn-outline-success" href="#">
-                                    Agregar articulo
+                                    Agregar empleado
                                 </a>
                             </div>
                         </div>

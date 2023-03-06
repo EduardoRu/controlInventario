@@ -26,6 +26,43 @@
     } catch (PDOException $error) {
         $error = $error->getMessage();
     }
+
+    if ($inventario) {
+        foreach ($inventario as $fila) {
+            if (isset($_POST['editar_articulo_' . $fila['id_articulo']])) {
+                try {
+                    $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
+                    $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
+
+                    $articulo = [
+                        "id"                      => $fila['id_articulo'],
+                        "nombre_articulo"         => $_POST['nombre_articulo_' . $fila['id_articulo']],
+                        "cantidad"                => $_POST['cantidad_articulo_' . $fila['id_articulo']],
+                        "descripcion_articulo"    => $_POST['desc_articulo_' . $fila['id_articulo']],
+                        "id_Ubicacion"            => $_POST['personal_respo_' . $fila['id_articulo']],
+                        "id_Responsable"          => $_POST['ubicacion_art_' . $fila['id_articulo']]
+                    ];
+
+                    $consultaSQL = "UPDATE articulo SET
+                        nombre_articulo = :nombre_articulo,
+                        cantidad = :cantidad,
+                        descripcion_articulo = :descripcion_articulo,
+                        id_Ubicacion = :id_Ubicacion,
+                        id_Responsable = :id_Responsable,
+                        updated_at = NOW()
+                        WHERE id = :id";
+
+                    $consulta = $conexion->prepare($consultaSQL);
+                    $consulta->execute($articulo);
+
+                    header('Location: ./index.php');
+                } catch (PDOException $error) {
+                    $error = $error->getMessage();
+                }
+            }
+        }
+    }
+
     ?>
 
     <?php include "./templases/header.php" ?>
@@ -95,7 +132,7 @@
                                                     <td><?php echo escapar($fila['nom_personal']) ?></td>
                                                     <td>
                                                         <!-- Eliminar un articulo -->
-                                                        <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]).'&table=articulo' ?>">🗑️Borrar</a>
+                                                        <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]) . '&table=articulo' ?>">🗑️Borrar</a>
                                                         <!-- Editar un articulo -->
                                                         <?php include('./templases/modal_inventario.php') ?>
                                                     </td>

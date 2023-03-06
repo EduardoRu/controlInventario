@@ -1,32 +1,32 @@
 <?php
 try {
-
     $config = include 'config.php';
-  
+
     $dsn = 'mysql:host=' . $config['db']['host'] .
-      ';dbname=' . $config['db']['name'];
+        ';dbname=' . $config['db']['name'];
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
-  
+
     $consultaSQL = "SELECT 
     personal.id AS 'id_Personal',
     personal.nombre AS 'nombre_Personal',
     personal.apellido_paterno AS 'apellido_Personal' FROM personal";
-  
+
     $sentencia = $conexion->prepare($consultaSQL);
     $sentencia->execute();
-  
+
     $personal = $sentencia->fetchAll();
-  
+
     $consultaSQL = "SELECT 
     ubicacion.id AS 'id_Ubicacion',
     ubicacion.nombre_ubicacion AS 'nombre_Ubicacion' FROM ubicacion";
-  
+
     $sentencia = $conexion->prepare($consultaSQL);
     $sentencia->execute();
-  
+
     $ubicacion = $sentencia->fetchAll();
-  } catch (PDOException $error) {
-  }
+} catch (PDOException $error) {
+    $error = $error->getMessage();
+}
 ?>
 
 <!-- Button trigger modal -->
@@ -87,7 +87,7 @@ try {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="submit" class="btn btn-primary" name="editar_articulo_<?= escapar($fila['id_articulo']) ?>" id="editar_articulo_<?= escapar($fila['id_articulo']) ?>">Guardar cambios</button>
             </div>
             </form>
         </div>
