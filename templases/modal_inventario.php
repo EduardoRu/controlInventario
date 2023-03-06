@@ -85,7 +85,7 @@ try {
                     </div>
 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary" name="editar_articulo_<?= escapar($fila['id_articulo']) ?>" id="editar_articulo_<?= escapar($fila['id_articulo']) ?>">Guardar cambios</button>
             </div>

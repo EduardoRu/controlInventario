@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
               <label for="personal_respo">Ubicación del articulo</label>
               <!-- Coloar con select con el nombre de las ubicaciones -->
               <select name="personal_respo" id="personal_respo" class="form-select" required>
-                <option value=""> --- </option>
+                <option value=""> </option>
                 <?php
                 foreach ($ubicacion as $u) {
                 ?>
@@ -129,7 +129,7 @@ if (isset($_POST['submit'])) {
               <label for="ubicacion_art">Responsable del articulo</label>
               <!-- Coloar con select con el nombre de las personas registradas -->
               <select name="ubicacion_art" id="ubicacion_art" class="form-select" required>
-                <option value=""> --- </option>
+                <option value=""> </option>
                 <?php
                 foreach ($personal as $p) {
                 ?>
@@ -139,9 +139,9 @@ if (isset($_POST['submit'])) {
                 ?>
               </select>
             </div>
-            <div class="form-group mt-2">
-              <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
-              <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
+            <div class="form-group mt-2 d-grid gap-2 col-6 mx-auto">
+              <input type="submit" name="submit" class="btn btn-outline-success" value="Agregar articulo">
+              <a class="btn btn-outline-secondary" href="index.php">Regresar al inicio</a>
             </div>
           </form>
         </div>
