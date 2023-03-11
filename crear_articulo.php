@@ -1,7 +1,7 @@
 <!--incluye archivo y funcionalidad del archivo header -->
 <?php
 session_start();
-if (isset($_SESSION['id']) && $_SESSION['nombre']) {
+if (isset($_SESSION['id']) && $_SESSION['nombre'] && $_SESSION['puesto'] == "admin") {
 include "./templases/header.php"; ?>
 
 <?php

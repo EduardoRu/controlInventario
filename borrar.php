@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['id']) && $_SESSION['nombre']) {
+if (isset($_SESSION['id']) && $_SESSION['nombre'] && $_SESSION['puesto'] == "admin") {
 //inclusion del archivo "funciones" y sus funciones
 include 'funciones.php';
 

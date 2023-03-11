@@ -90,11 +90,17 @@
                                     <div class="p-2 flex-grow-1 mt-2">
                                         <i class="fas fa-table me-1"></i> Inventario
                                     </div>
-                                    <div class="p-2">
-                                        <a type="button" class="btn btn-outline-success" href="./crear_articulo.php">
-                                            Agregar articulo
-                                        </a>
-                                    </div>
+                                    <?php
+                                    if ($_SESSION['puesto'] == 'admin') {
+                                    ?>
+                                        <div class="p-2">
+                                            <a type="button" class="btn btn-outline-success" href="./crear_articulo.php">
+                                                Agregar articulo
+                                            </a>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                                 <div class="card-body table-responsive-xl">
                                     <table id="datatablesSimple" class="table table-striped">
@@ -106,7 +112,13 @@
                                                 <th>Descripción</th>
                                                 <th>Ubicación</th>
                                                 <th>Responsable</th>
-                                                <th>Acciones</th>
+                                                <?php
+                                                if ($_SESSION['puesto'] == 'admin') {
+                                                ?>
+                                                    <th>Acciones</th>
+                                                <?php
+                                                }
+                                                ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -121,12 +133,18 @@
                                                         <td><?php echo escapar($fila['descripcion_articulo']) ?></td>
                                                         <td><?php echo escapar($fila['nombre_ubicacion']) ?></td>
                                                         <td><?php echo escapar($fila['nombre'] . ' ' . $fila['apellido_paterno'] . ' ' . $fila['apellido_materno']) ?></td>
-                                                        <td>
-                                                            <!-- Eliminar un articulo -->
-                                                            <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) . '&table=articulo' ?>">🗑️Borrar</a>
-                                                            <!-- Editar un articulo -->
-                                                            <?php include('./templases/modal_inventario.php') ?>
-                                                        </td>
+                                                        <?php
+                                                        if ($_SESSION['puesto'] == 'admin') {
+                                                        ?>
+                                                            <td>
+                                                                <!-- Eliminar un articulo -->
+                                                                <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) . '&table=articulo' ?>">🗑️Borrar</a>
+                                                                <!-- Editar un articulo -->
+                                                                <?php include('./templases/modal_inventario.php') ?>
+                                                            </td>
+                                                        <?php
+                                                        }
+                                                        ?>
                                                     </tr>
                                             <?php
                                                 }

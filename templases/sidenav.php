@@ -7,15 +7,21 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Inventario
                 </a>
-                <div class="sb-sidenav-menu-heading">Administración</div>
-                <a class="nav-link" href="ubicacion.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-map-location-dot"></i></div>
-                    Ubicaciones
-                </a>
-                <a class="nav-link" href="empleado.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-person"></i></div>
-                    Empleados
-                </a>
+                <?php
+                if ($_SESSION['puesto'] == "admin") {
+                ?>
+                    <div class="sb-sidenav-menu-heading">Administración</div>
+                    <a class="nav-link" href="ubicacion.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-map-location-dot"></i></div>
+                        Ubicaciones
+                    </a>
+                    <a class="nav-link" href="empleado.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-person"></i></div>
+                        Empleados
+                    </a>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <div class="sb-sidenav-footer">
