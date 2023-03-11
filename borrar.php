@@ -27,46 +27,50 @@ try {
   $consultaSQL = "";
   //consulata a base de datos*/
   if($table == 'articulo'){
-    $consultaSQL = "DELETE FROM articulo WHERE id =" . $id;
-    $sentencia = $conexion->prepare($consultaSQL);
-    $sentencia->execute();
-    header('Location: ./index.php');
+    try{
+      $consultaSQL = "DELETE FROM articulo WHERE id =" . $id;
+      $sentencia = $conexion->prepare($consultaSQL);
+      $sentencia->execute();
+      header('Location: ./index.php');
+    }catch(PDOException $error){
+      $resultado['error'] = true;
+      $resultado['mensaje'] = 'Ha ocurrido el siguiente error: '.$error->getMessage();
+
+      header('Location: ./index.php?$resultado='.$resultado);
+    }
   }else if($table == 'personal'){
-    $consultaSQL = "DELETE FROM personal WHERE id =" . $id;
-    $sentencia = $conexion->prepare($consultaSQL);
-    $sentencia->execute();
-    header('Location: ./empleado.php');
+    try{
+      $consultaSQL = "DELETE FROM personal WHERE id =" . $id;
+      $sentencia = $conexion->prepare($consultaSQL);
+      $sentencia->execute();
+      header('Location: ./empleado.php');
+    }catch(PDOException $error){
+      $resultado['error'] = true;
+      $resultado['mensaje'] = 'Verifique que la ubicaicón no esté ligada a un articulo, error: '.$error->getMessage();
+
+      header('Location: ./empleado.php?$resultado='.$resultado);
+    }
   }else if($table == 'ubicacion'){
-    $consultaSQL = "DELETE FROM ubicacion WHERE id =" . $id;
-    $sentencia = $conexion->prepare($consultaSQL);
-    $sentencia->execute();
-    header('Location: ./ubicacion.php');
+    try{
+      $consultaSQL = "DELETE FROM ubicacion WHERE id =" . $id;
+      $sentencia = $conexion->prepare($consultaSQL);
+      $sentencia->execute();
+      header('Location: ./ubicacion.php');  
+    }catch(PDOException $error){
+      $resultado['error'] = true;
+      $resultado['mensaje'] = 'Verifique que el empleado no esté ligada a un articulo, error: '.$error->getMessage();
+
+      header('Location: ./ubicacion.php?resultado='.$resultado);
+    }
   }
 
-  /*Sentencia para que al finalisar el proceso 
-    retorne al usuario el archivo index*/
-  
 
 } catch(PDOException $error) {
   $resultado['error'] = true;
   $resultado['mensaje'] = $error->getMessage();
 }
-?>
 
-<?php include "./templases/header.php" ?>
-
-<div class="container mt-2">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <?= $resultado['mensaje'] ?>
-      </div>
-    </div>
-  </div>
-</div>
-
-<?php include "./templases/footer.php";
 } else {
   header("Location: ./login.php");
   exit;
-} ?>
+}
