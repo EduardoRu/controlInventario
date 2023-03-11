@@ -1,4 +1,6 @@
 <?php
+session_start();
+if (isset($_SESSION['id']) && $_SESSION['nombre']) {
 include 'funciones.php';
 
 $config = include 'config.php';
@@ -193,4 +195,8 @@ if (isset($articulo) && $articulo) {
 }
 ?>
 
-<?php include "./templases/footer.php" ?>
+<?php include "./templases/footer.php";
+} else {
+  header("Location: ./login.php");
+  exit;
+}?>

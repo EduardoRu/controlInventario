@@ -20,7 +20,7 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Ha ingresado:</div>
-            Nombre empleado
+            <?php echo $_SESSION['nombre'] ?>
         </div>
     </nav>
 </div>

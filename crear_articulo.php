@@ -1,5 +1,8 @@
 <!--incluye archivo y funcionalidad del archivo header -->
-<?php include "./templases/header.php" ?>
+<?php
+session_start();
+if (isset($_SESSION['id']) && $_SESSION['nombre']) {
+include "./templases/header.php"; ?>
 
 <?php
 //incluye archivo y funcionalidad del archivo funciones
@@ -151,4 +154,8 @@ if (isset($_POST['submit'])) {
   </div>
   </div>
 </body>
-<?php include "./templases/footer.php" ?>
+<?php include "./templases/footer.php";
+} else {
+  header("Location: ./login.php");
+  exit;
+} ?>
