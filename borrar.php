@@ -27,19 +27,24 @@ try {
   //consulata a base de datos*/
   if($table == 'articulo'){
     $consultaSQL = "DELETE FROM articulo WHERE id =" . $id;
+    $sentencia = $conexion->prepare($consultaSQL);
+    $sentencia->execute();
+    header('Location: ./index.php');
   }else if($table == 'personal'){
     $consultaSQL = "DELETE FROM personal WHERE id =" . $id;
+    $sentencia = $conexion->prepare($consultaSQL);
+    $sentencia->execute();
+    header('Location: ./empleado.php');
   }else if($table == 'ubicacion'){
     $consultaSQL = "DELETE FROM ubicacion WHERE id =" . $id;
+    $sentencia = $conexion->prepare($consultaSQL);
+    $sentencia->execute();
+    header('Location: ./ubicacion.php');
   }
-  
-  //Sentencia o funcion de la base de datos*/
-  $sentencia = $conexion->prepare($consultaSQL);
-  $sentencia->execute();
 
   /*Sentencia para que al finalisar el proceso 
     retorne al usuario el archivo index*/
-  header('Location: ./index.php');
+  
 
 } catch(PDOException $error) {
   $resultado['error'] = true;
