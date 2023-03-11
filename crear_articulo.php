@@ -15,7 +15,8 @@ try {
   $consultaSQL = "SELECT 
   personal.id AS 'id_Personal',
   personal.nombre AS 'nombre_Personal',
-  personal.apellido_paterno AS 'apellido_Personal' FROM personal";
+  personal.apellido_paterno AS 'apellido_Personal',
+  personal.apellido_materno AS 'apellido_m' FROM personal";
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();
@@ -133,7 +134,7 @@ if (isset($_POST['submit'])) {
                 <?php
                 foreach ($personal as $p) {
                 ?>
-                  <option value="<?php echo escapar($p["id_Personal"]) ?>"> <?php echo escapar($p["nombre_Personal"] . ' ' . $p["apellido_Personal"]) ?> </option>
+                  <option value="<?php echo escapar($p["id_Personal"]) ?>"> <?php echo escapar($p["nombre_Personal"] . ' ' . $p["apellido_Personal"]. ' ' .$p['apellido_m']) ?> </option>
                 <?php
                 }
                 ?>

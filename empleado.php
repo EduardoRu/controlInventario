@@ -51,7 +51,7 @@ try {
                                 <i class="fas fa-table me-1"></i>Empleados
                             </div>
                             <div class="p-2">
-                                <a type="button" class="btn btn-outline-success" href="#">
+                                <a type="button" class="btn btn-outline-success" href="./crear_empleado.php">
                                     Agregar empleado
                                 </a>
                             </div>
@@ -83,7 +83,7 @@ try {
                                                 <td><?php echo escapar($fila['puesto_cargo']) ?></td>
                                                 <td><?php echo escapar($fila['telefono']) ?></td>
                                                 <td><?php echo escapar($fila['email']) ?></td>
-                                                <td><a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) ?>">🗑️Borrar</a>
+                                                <td><a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]).'&table=personal' ?>">🗑️Borrar</a>
                                                     <a class="btn" href="<?= 'editar.php?id=' . escapar($fila["id"]) ?>">✏️Editar</a>
                                                 </td>
                                             </tr>

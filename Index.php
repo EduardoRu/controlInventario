@@ -2,55 +2,43 @@
     include 'funciones.php';
     $error = false;
     $config = include 'config.php';
+    $inventario = [];
     try {
         $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
         $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
-        $consultaSQL = "SELECT
-        articulo.id AS 'id_articulo',
-        articulo.nombre_articulo AS 'nom_articulo', 
-        articulo.cantidad AS 'cantidad_articulo', 
-        articulo.descripcion_articulo AS 'desc_articulo',
-        articulo.id_Ubicacion AS 'id_ubicacion',
-        ubicacion.nombre_ubicacion AS 'nom_ubicacion',
-        articulo.id_Responsable AS 'id_responsable',
-        personal.nombre AS 'nom_personal'
-        FROM articulo 
-        INNER JOIN personal ON articulo.id_Ubicacion = personal.id
-        INNER JOIN ubicacion ON articulo.id_Responsable = ubicacion.id";
+        $consultaSQL = "SELECT articulo.*, ubicacion.nombre_ubicacion, personal.nombre, personal.apellido_paterno, personal.apellido_materno FROM articulo 
+        INNER JOIN ubicacion ON articulo.id_Ubicacion = ubicacion.id
+        INNER JOIN personal ON articulo.id_Responsable = personal.id";
 
         $sentencia = $conexion->prepare($consultaSQL);
         $sentencia->execute();
 
         $inventario = $sentencia->fetchAll();
-    } catch (PDOException $error) {
-        $error = $error->getMessage();
-    }
 
-    if ($inventario) {
-        foreach ($inventario as $fila) {
-            if (isset($_POST['editar_articulo_' . $fila['id_articulo']])) {
+        foreach ($inventario as $in) {
+            if (isset($_POST['editar_articulo_' . $in['id']])) {
                 try {
                     $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
                     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
                     $articulo = [
-                        "id"                      => $fila['id_articulo'],
-                        "nombre_articulo"         => $_POST['nombre_articulo_' . $fila['id_articulo']],
-                        "cantidad"                => $_POST['cantidad_articulo_' . $fila['id_articulo']],
-                        "descripcion_articulo"    => $_POST['desc_articulo_' . $fila['id_articulo']],
-                        "id_Ubicacion"            => $_POST['personal_respo_' . $fila['id_articulo']],
-                        "id_Responsable"          => $_POST['ubicacion_art_' . $fila['id_articulo']]
+                        "id"                      => $in['id'],
+                        "nombre_articulo"         => $_POST['nombre_articulo_' . $in['id']],
+                        "cantidad"                => $_POST['cantidad_articulo_' . $in['id']],
+                        "descripcion_articulo"    => $_POST['desc_articulo_' . $in['id']],
+                        "id_Ubicacion"            => $_POST['ubicacion_art_' . $in['id']],
+                        "id_Responsable"          => $_POST['personal_respo_' . $in['id']]
                     ];
 
                     $consultaSQL = "UPDATE articulo SET
-                        nombre_articulo = :nombre_articulo,
-                        cantidad = :cantidad,
-                        descripcion_articulo = :descripcion_articulo,
-                        id_Ubicacion = :id_Ubicacion,
-                        id_Responsable = :id_Responsable,
-                        updated_at = NOW()
-                        WHERE id = :id";
+                            nombre_articulo = :nombre_articulo,
+                            cantidad = :cantidad,
+                            descripcion_articulo = :descripcion_articulo,
+                            id_Ubicacion = :id_Ubicacion,
+                            id_Responsable = :id_Responsable,
+                            updated_at = NOW()
+                            WHERE id = :id";
 
                     $consulta = $conexion->prepare($consultaSQL);
                     $consulta->execute($articulo);
@@ -61,7 +49,11 @@
                 }
             }
         }
+    } catch (PDOException $error) {
+        $error = $error->getMessage();
     }
+
+
 
     ?>
 
@@ -124,15 +116,15 @@
                                             foreach ($inventario as $fila) {
                                         ?>
                                                 <tr>
-                                                    <td><?php echo escapar($fila['id_articulo']) ?></td>
-                                                    <td><?php echo escapar($fila['nom_articulo']) ?></td>
-                                                    <td><?php echo escapar($fila['cantidad_articulo']) ?></td>
-                                                    <td><?php echo escapar($fila['desc_articulo']) ?></td>
-                                                    <td><?php echo escapar($fila['nom_ubicacion']) ?></td>
-                                                    <td><?php echo escapar($fila['nom_personal']) ?></td>
+                                                    <td><?php echo escapar($fila['id']) ?></td>
+                                                    <td><?php echo escapar($fila['nombre_articulo']) ?></td>
+                                                    <td><?php echo escapar($fila['cantidad']) ?></td>
+                                                    <td><?php echo escapar($fila['descripcion_articulo']) ?></td>
+                                                    <td><?php echo escapar($fila['nombre_ubicacion']) ?></td>
+                                                    <td><?php echo escapar($fila['nombre'] . ' ' . $fila['apellido_paterno'] . ' ' . $fila['apellido_materno']) ?></td>
                                                     <td>
                                                         <!-- Eliminar un articulo -->
-                                                        <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id_articulo"]) . '&table=articulo' ?>">🗑️Borrar</a>
+                                                        <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) . '&table=articulo' ?>">🗑️Borrar</a>
                                                         <!-- Editar un articulo -->
                                                         <?php include('./templases/modal_inventario.php') ?>
                                                     </td>
