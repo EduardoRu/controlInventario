@@ -12,6 +12,53 @@ try {
     $sentencia->execute();
 
     $personal = $sentencia->fetchAll();
+
+    if ($personal) {
+        foreach ($personal as $per) {
+            if(isset($_POST['editar_personal_'.$per['id']])){
+                try {
+
+                    $pass = "";
+    
+                    if (password_verify($_POST['pass_empleado_' . $per['id']], $per['password'])) {
+                        $pass = password_hash($_POST['pass_empleado_' . $per['id']], PASSWORD_DEFAULT);
+                    } else {
+                        $pass = $per['password'];
+                    }
+    
+                    $personalData = [
+                        'id'                => $per['id'],
+                        'nombre'            => $_POST['nombre_empleado_' . $per['id']],
+                        'apellido_paterno'  => $_POST['apellido_paterno_' . $per['id']],
+                        'apellido_materno'  => $_POST['apellido_materno_' . $per['id']],
+                        'puesto_cargo'      => $_POST['puesto_cargo_empleado_' . $per['id']],
+                        'telefono'          => $_POST['telefono_empleado_' . $per['id']],
+                        'email'             => $_POST['email_empleado_' . $per['id']],
+                        'password'          => $pass
+                    ];
+
+                    $consultaSQL = "UPDATE personal SET
+                    nombre = :nombre,
+                    apellido_paterno = :apellido_paterno,
+                    apellido_materno = :apellido_materno,
+                    puesto_cargo = :puesto_cargo,
+                    telefono = :telefono,
+                    email = :email,
+                    password = :password,
+                    updated_at = NOW()
+                    WHERE id = :id";
+
+                    $sentencia = $conexion->prepare($consultaSQL);
+                    $sentencia->execute($personalData);
+
+                    header('Location: ./empleado.php');
+
+                } catch (PDOException $error) {
+                    $error = $error->getMessage();
+                }
+            }
+        }
+    }
 } catch (PDOException $error) {
     $error = $error->getMessage();
 }
@@ -83,8 +130,9 @@ try {
                                                 <td><?php echo escapar($fila['puesto_cargo']) ?></td>
                                                 <td><?php echo escapar($fila['telefono']) ?></td>
                                                 <td><?php echo escapar($fila['email']) ?></td>
-                                                <td><a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]).'&table=personal' ?>">🗑️Borrar</a>
-                                                    <a class="btn" href="<?= 'editar.php?id=' . escapar($fila["id"]) ?>">✏️Editar</a>
+                                                <td>
+                                                    <a class="btn" href="<?= 'borrar.php?id=' . escapar($fila["id"]) . '&table=personal' ?>">🗑️Borrar</a>
+                                                    <?php include "./templases/modal_empleado.php"; ?>
                                                 </td>
                                             </tr>
                                     <?php

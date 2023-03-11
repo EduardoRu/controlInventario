@@ -8,7 +8,7 @@ CREATE TABLE personal (
   apellido_paterno VARCHAR(50) NOT NULL,
   apellido_materno VARCHAR(50) NOT NULL,
   puesto_cargo VARCHAR(60) NOT NULL,
-  telefono INT NOT NULL,
+  telefono BIGINT NOT NULL,
   email VARCHAR(80) NOT NULL,
   password LONGTEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

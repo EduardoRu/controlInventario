@@ -52,9 +52,6 @@
     } catch (PDOException $error) {
         $error = $error->getMessage();
     }
-
-
-
     ?>
 
     <?php include "./templases/header.php" ?>
